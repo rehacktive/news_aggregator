@@ -1,6 +1,7 @@
 package main
 
 import (
+	"log"
 	"time"
 
 	"github.com/go-pg/pg"
@@ -111,10 +112,13 @@ func createSchema(db *pg.DB) (err error) {
 			return
 		}
 	}
-	_, err = db.Model(&News{}).Exec(`
+	_, err2 := db.Model(&News{}).Exec(`
     		CREATE UNIQUE INDEX guid_idx
     		ON ?TableName(guid)
 	`)
+	if err2 != nil {
+		log.Println("error creating the index")
+	}
 
 	return
 }

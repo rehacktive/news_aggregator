@@ -1,26 +1,46 @@
 version: "3.7"
 services:
   database:
-    image: postgres
+    image: postgres:latest
     restart: always
-    env_file:
-      - .env
+    environment: 
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "password"
     ports:
       - "5432:5432"
+    networks:
+      - mynet
     volumes:
-      - data:/var/lib/postgresql/data
-  server:
+      - data:/var/lib/postgresql/data1
+  feedservice:
     build:
       context: ./newsfeedService
       dockerfile: Dockerfile
-    env_file: .env
+    environment:
+        DB_USER: "postgres"
+        DB_PASS: "password"
+        DB_HOST: "database:5432"
     depends_on:
       - database
     networks:
-      - default
+      - mynet
     ports:
-    - "8080:8080"
+    - "8880:8880"
+  ingestionservice:
+      build:
+        context: ./feedIngestionService
+        dockerfile: Dockerfile
+      environment:
+          DB_USER: "postgres"
+          DB_PASS: "password"
+          DB_HOST: "database:5432"
+      depends_on:
+        - database
+      networks:
+        - mynet
 volumes:
   data:
 
-
+networks:
+  mynet:
+    driver: bridge
