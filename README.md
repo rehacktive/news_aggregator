@@ -8,11 +8,11 @@ The 2 microservices:
 
 * **feedIngestionService**: periodically gets a list of feed URLs from the database, gets the articles from all the sources and stores them in the database;
 
-The list of feeds is stored in the database, and a category is associated to each different source, allowing later the possibility to filter news by category.
+  The list of feeds is stored in the database, and a category is associated to each different source, allowing later the possibility to filter news by category.
 
-The fetch interval can be specified as an env variable, default is 1 minute.
+  The fetch interval can be specified as an env variable, default is 1 minute.
 
-*This  feed list could be managed in a CRUD-way by the endpoint (not implemented)*
+  *This  feed list could be managed in a CRUD-way by the endpoint (not implemented)*
 
 * **newsfeedService**: exposes 3 different endpoints, related to the original requirements, to get a list of news stored in the database, filter them by category and get a list of categories (used by the previous filter).
 
