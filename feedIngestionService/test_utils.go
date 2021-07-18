@@ -5,6 +5,10 @@ type MockIngestorDB struct {
 	news  []News
 }
 
+func (m *MockIngestorDB) close() {
+
+}
+
 func (m *MockIngestorDB) getFeeds() ([]Feed, error) {
 	return m.feeds, nil
 }
